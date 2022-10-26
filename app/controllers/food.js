@@ -1,5 +1,8 @@
 import { MonAn } from "../models/MonAn.js";
+import { Menu } from "../models/Menu.js";
 
+let menu = new Menu();
+menu.layLocalStorage();
 //xây dựng chức năng cho nút thêm món
 document.getElementById("btnThemMon").onclick = function () {
   //lấy thông tin input từ người dùng (mã món, tên món,...)
@@ -31,18 +34,51 @@ document.getElementById("btnThemMon").onclick = function () {
     </li>
     `;
     } else {
-      html += `
-    <li class = "list-group-item d-flex justify-content-between lh-condensed">
-    <div>
-    <h6 class="my-0">${key}</h6>
-    </div>
-    <span id="text_${key}" class="text-muted">${mon[key]}</span>
-    </li>
-    `;
+      if (key === "hinhMon") {
+        html += `
+            <li class = "list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+            <h6 class="my-0">${key}</h6>
+            </div>
+            <span id="text_${key}" class="text-muted">
+            <img src="${mon[key]}" width = "200px" height = "50px"/>
+            </span>
+            </li>
+            `;
+      } else {
+        html += `
+          <li class = "list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+          <h6 class="my-0">${key}</h6>
+          </div>
+          <span id="text_${key}" class="text-muted">${mon[key]}</span>
+          </li>
+          `;
+      }
     }
   }
 
   //dom đến thẻ ul dựa vào querySelector
   document.querySelector("main .list-group").innerHTML = html;
+
+  //lưu món ăn vào mảng món ăn
+  menu.themMonAn(mon);
+  menu.luuLocalStorage();
+
+  //   mangMonAn.push(mon);
+  //sau khi thêm món ăn thì lưu mảng món ăn vào storage
+  //   luuLocalStrorage();
 };
-//alo
+// function luuLocalStrorage() {
+//   //biến mangMonAn thành chuỗi sau đó đem chuỗi lưu vào localStorage
+//   localStorage.setItem("mangMonAn", JSON.stringify(mangMonAn));
+// }
+// function layLocalStorage() {
+//   if (localStorage.getItem("mangMonAn")) {
+//     mangMonAn = JSON.parse(localStorage.getItem("mangMonAn"));
+//   }
+// }
+
+// window.onload = function () {
+//   layLocalStorage();
+// };
